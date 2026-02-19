@@ -1,0 +1,5 @@
+/* packages/tailwind-config/theme.css */
+@import "tailwindcss";
+@theme {
+    --primary: #3b82f6;
+  }
