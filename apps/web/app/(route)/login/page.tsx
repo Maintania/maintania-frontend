@@ -1,8 +1,13 @@
 "use client"
 import { Button } from "@repo/ui/button";
-import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
+
+  function signIn() {
+    window.location.href = "http://localhost:8000/auth/github/login"
+  }
+
+
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -10,7 +15,7 @@ export default function LoginPage() {
         <p className="mb-6 text-sm text-slate-600">
           Continue with GitHub to access Maintania.
         </p>
-        <Button type="primary" block size="large" onClick={()=>signIn("github",{ callbackUrl: "/dashboard" })}>
+        <Button type="primary" block size="large" onClick={()=>signIn()}>
           Continue with GitHub
         </Button>
       </div>

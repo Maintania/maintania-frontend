@@ -1,6 +1,9 @@
 "use client"
 
-import { signOut } from "next-auth/react"
+import { Avatar, Space, Typography } from "antd"
+import { Button } from "@repo/ui/button"
+import { useRouter } from "next/navigation"
+
 
 type Props = {
   name?: string | null
@@ -15,25 +18,39 @@ export default function UserProfile({
   email,
   image
 }: Props) {
+  const router = useRouter()
+  async function signOut(){
+    try {
+      await fetch("http://localhost:8000/auth/logout", {
+        method: "POST",
+        credentials: "include"
+      })
+      router.push('/login')
+    } catch (error) {
+      
+    }
+   
+  }
   return (
-    <div className="flex items-center gap-3">
-      <img
-        src={image ?? ""}
-        className="w-10 h-10 rounded-full"
-        alt="avatar"
-      />
+    <div className="rounded-xl border border-slate-200 bg-white p-4">
+      <div className="flex items-start justify-between gap-4">
+        <Space size={12} align="start">
+          <Avatar size={48} src={image ?? undefined}>
+            {name?.charAt(0)?.toUpperCase() ?? "U"}
+          </Avatar>
 
-      <div>
-        <p className="font-semibold text-gray-500">{name}</p>
-        <p className="text-gray-500">@{username}</p>
-        <p className="text-sm">{email}</p>
+          <div>
+            <Typography.Text strong className="block text-base text-slate-900">
+              {name ?? "GitHub User"}
+            </Typography.Text>
+            <Typography.Text type="secondary" className="block">
+              @{username ?? "unknown"}
+            </Typography.Text>
+            <Typography.Text type="secondary">{email ?? "No email"}</Typography.Text>
+          </div>
+        </Space>
 
-        <button
-          className="mt-2 px-3 py-1 bg-red-500 text-white rounded"
-          onClick={() => signOut({ callbackUrl: "http://localhost:3001" })}
-        >
-          Sign Out
-        </button>
+        <Button onClick={signOut}>Sign Out</Button>
       </div>
     </div>
   )

@@ -18,7 +18,8 @@ export function Navbar() {
           ))}
         </nav>
         <div className="nav-actions">
-          <Link href="http://localhost:3000/login" className="btn btn-ghost">
+          <Link href="https://maintania-frontend-web.vercel.app/login" className="btn btn-ghost">
+          {/* <Link href="http://localhost:3000/login" className="btn btn-ghost"> */}
             Login
           </Link>
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>

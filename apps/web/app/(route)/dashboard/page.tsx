@@ -1,25 +1,23 @@
-import { getServerSession } from "next-auth"
+"use client"
 import UserProfile from "../../_components/user-profile"
-import { authOptions } from "../../api/auth/[...nextauth]/route"
 import Dashboard from "../../_components/dashboard"
-import Link from "next/link"
+import { useAuth } from "../../../lib/hook/useAuth"
 
 
-export default async function DashboardPage() {
-  const session = await getServerSession(authOptions)
+export default function DashboardPage() {
+  const { user, loading } = useAuth()
 
-  if (!session) return <div>Unauthorized</div>
+  if (loading) return <div>Loading...</div>
 
   return (
-    <div>
-        <UserProfile
-          name={session.user?.name}
-          username={session.user?.username}
-          email={session.user?.email}
-          image={session.user?.image}
-        />
-        <Link href="https://github.com/apps/maintania-app/installations/new">selct for rpeo</Link>
-        <Dashboard/>
+    <div className="mx-auto w-full max-w-5xl space-y-6 p-6">
+      <UserProfile
+        name={user?.name ?? undefined}
+        username={user?.username ?? undefined}
+        email={user?.email ?? undefined}
+        image={user?.avatar_url ?? undefined}
+      />
+      <Dashboard />
     </div>
   )
 }

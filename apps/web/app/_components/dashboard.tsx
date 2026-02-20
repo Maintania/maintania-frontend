@@ -1,30 +1,39 @@
+"use client"
+import { useEffect, useState } from "react";
+import GitHubDashboard from "./github-dashboard";
+import type { GitHubRepo } from "./repo-selector";
+ 
 
+export default  function Dashboard() {
+  const [repoData,setRepoData]=useState<GitHubRepo[]>([])
+  const [installations, setInstallations] = useState([])
+  const [selectedInstallation, setSelectedInstallation] = useState(null)
 
-async function getRepos() {
-    try {
-        const res = await fetch("http://127.0.0.1:8000/github/repos", {
-            cache: "no-store"
-          })
-          return res.json()
-    } catch (error) {
-        console.log("api fiales to fetch repo")
-    }
-  }
+  useEffect(() => {
+    fetch("http://localhost:8000/github/installations", {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => {
+        setInstallations(data)
+        if (data.length > 0) {
+          setSelectedInstallation(data[0].installation_id)
+        }
+      })
+  }, [])
 
+  useEffect(() => {
+    if (!selectedInstallation) return
 
-  export default async function Dashboard() {
-    const data = await getRepos()
-    const repos = data?.repositories || []
-  
-    return (
-      <div>
-        <h1>Select Repository</h1>
-  
-        {repos.map((repo: any) => (
-          <div key={repo.id} className="p-2 border rounded mb-2 text-white">
-            <p>{repo.full_name}</p>
-          </div>
-        ))}
-      </div>
+    fetch(
+      `http://localhost:8000/github/repos/${selectedInstallation}`,
+      { credentials: "include" }
     )
-  }
+      .then(res => res.json())
+      .then(data => setRepoData(data.repositories ?? []))
+
+  }, [selectedInstallation])
+
+
+  return <GitHubDashboard repos={repoData} />;
+}
