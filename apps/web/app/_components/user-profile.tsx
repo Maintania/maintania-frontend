@@ -21,7 +21,7 @@ export default function UserProfile({
   const router = useRouter()
   async function signOut(){
     try {
-      await fetch("http://localhost:8000/auth/logout", {
+      await fetch(`${process.env.BACKEND_URL}/auth/logout`, {
         method: "POST",
         credentials: "include"
       })

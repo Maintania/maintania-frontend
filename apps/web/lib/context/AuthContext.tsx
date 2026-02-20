@@ -25,7 +25,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch("http://localhost:8000/auth/me", {
+    fetch(`${process.env.BACKEND_URL}/auth/me`, {
       credentials: "include"
     })
       .then(res => res.ok ? res.json() : null)

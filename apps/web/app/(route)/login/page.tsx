@@ -4,7 +4,7 @@ import { Button } from "@repo/ui/button";
 export default function LoginPage() {
 
   function signIn() {
-    window.location.href = "http://localhost:8000/auth/github/login"
+    window.location.href = `${process.env.BACKEND_URL}/auth/github/login`
   }
 
 
