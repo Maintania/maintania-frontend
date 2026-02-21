@@ -10,7 +10,7 @@ export default  function Dashboard() {
   const [selectedInstallation, setSelectedInstallation] = useState(null)
 
   useEffect(() => {
-    fetch(`${process.env.BACKEND_URL}/github/installations`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/github/installations`, {
       credentials: "include"
     })
       .then(res => res.json())
@@ -26,7 +26,7 @@ export default  function Dashboard() {
     if (!selectedInstallation) return
 
     fetch(
-      `${process.env.BACKEND_URL}/github/repos/${selectedInstallation}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/github/repos/${selectedInstallation}`,
       { credentials: "include" }
     )
       .then(res => res.json())
